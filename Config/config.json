@@ -1,0 +1,14 @@
+{
+    "bdd" : {
+        "dev" : {
+            "serveur" : "localhost",
+            "user"    : "root",
+            "pass"    : "root",
+            "bdd"     : "",
+            "port"    : ""
+        },
+        "prod" : {
+
+        }
+    }
+}
