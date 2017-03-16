@@ -6,7 +6,7 @@
  * Date: 01/01/2015
  * Time: 12:13
  */
-class _Helper
+class Helper
 {
 
     /**

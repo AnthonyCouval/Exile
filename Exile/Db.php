@@ -9,7 +9,7 @@
 namespace Exile;
 use PDO;
 
-class Exile_Bdd extends Exile_Config
+class Db extends Config
 {
 
     private $_serveur;

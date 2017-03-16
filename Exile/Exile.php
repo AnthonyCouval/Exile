@@ -43,7 +43,7 @@ class Exile
      */
     public function loadDB()
     {
-        return new Exile_Bdd();
+        return new Db();
     }
 
     /**
@@ -51,7 +51,7 @@ class Exile
      */
     public function loadController()
     {
-        return new Exile_Controller($_SERVER['REQUEST_URI']);
+        return new Controller($_SERVER['REQUEST_URI']);
     }
 
     /**
@@ -59,7 +59,7 @@ class Exile
      */
     public function loadAuth($cnx)
     {
-        return new \_Auth($cnx);
+        return new \Auth($cnx);
     }
 
     /**
@@ -67,7 +67,7 @@ class Exile
      */
     public function loadMessage()
     {
-       return new \_Message();
+       return new \Message();
     }
 
 }

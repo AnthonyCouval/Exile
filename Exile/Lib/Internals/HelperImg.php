@@ -6,7 +6,7 @@
  * Date: 12/01/2015
  * Time: 20:01
  */
-class _Helper_Img
+class HelperImg
 {
 
     static $DestinationDirectory = 'www/img/';

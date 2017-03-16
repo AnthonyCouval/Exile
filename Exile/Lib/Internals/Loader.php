@@ -6,7 +6,7 @@
  * Time: 21:34
  */
 
-class _Loader {
+class Loader {
 
     /**
      * Méthode qui load le javascript

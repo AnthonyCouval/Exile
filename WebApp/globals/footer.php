@@ -4,7 +4,7 @@
 
 <!-- JAVASCRIPT -->
 <?php
-_Loader::loadJS();
+Loader::loadJS();
 ?>
 </body>
 </html>

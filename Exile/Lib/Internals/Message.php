@@ -6,7 +6,7 @@
  * Date: 19/01/2015
  * Time: 21:47
  */
-class _Message
+class Message
 {
     /**
      * Initialisation et affichage de l'alerte

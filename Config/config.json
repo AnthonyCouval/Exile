@@ -8,7 +8,11 @@
             "port"    : ""
         },
         "prod" : {
-
+            "serveur" : "",
+            "user"    : "",
+            "pass"    : "",
+            "bdd"     : "",
+            "port"    : ""
         }
     }
 }

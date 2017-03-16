@@ -6,7 +6,7 @@
  * Date: 18/01/2015
  * Time: 10:30
  */
-class _Auth
+class Auth
 {
     private $cnx;
 

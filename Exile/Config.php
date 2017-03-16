@@ -8,7 +8,7 @@
  */
 namespace Exile;
 
-class Exile_Config
+class Config
 {
 
     private $_dev = false;

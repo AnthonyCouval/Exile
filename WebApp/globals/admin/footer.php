@@ -3,8 +3,8 @@
 
 <!-- JAVASCRIPT -->
 <?php
-_Loader::loadJS();
-if($action == 'admin') _Loader::loadJS(false, true);
+Loader::loadJS();
+if($action == 'admin') Loader::loadJS(false, true);
 ?>
 
 </body>

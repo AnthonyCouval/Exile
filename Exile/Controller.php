@@ -12,25 +12,25 @@
 
 namespace Exile;
 
-class Exile_Controller
+class Controller
 {
-    private $no_action = false;
-    private $no_view = false;
-    private $_action;
-    private $_view;
-    private $_request;
-    private $_tooManyRequest;
-    private $_pages;
-    private $_admin = false;
-    private $_params;
-    private $_webService = false;
+    private $noAction = false;
+    private $noView = false;
+    private $action;
+    private $view;
+    private $request;
+    private $tooManyRequest;
+    private $pages;
+    private $admin = false;
+    private $params;
+    private $webService = false;
 
     /**
      * @return mixed
      */
     public function getParams()
     {
-        return $this->_params;
+        return $this->params;
     }
 
     /**
@@ -38,7 +38,7 @@ class Exile_Controller
      */
     public function isAdmin()
     {
-        return $this->_admin;
+        return $this->admin;
     }
 
     /**
@@ -46,7 +46,7 @@ class Exile_Controller
      */
     public function getPages()
     {
-        return $this->_pages;
+        return $this->pages;
     }
 
     /**
@@ -55,7 +55,7 @@ class Exile_Controller
      */
     public function __construct($request)
     {
-        $this->_request = $request;
+        $this->request = $request;
         $this->initRequest();
         $this->buildPage();
         if ( ! $this->isAjax()) {
@@ -68,7 +68,7 @@ class Exile_Controller
      */
     private function getTooManyRequest()
     {
-        return $this->_tooManyRequest;
+        return $this->tooManyRequest;
     }
 
     /**
@@ -76,7 +76,7 @@ class Exile_Controller
      */
     private function setTooManyRequest($tooManyRequest)
     {
-        $this->_tooManyRequest = $tooManyRequest;
+        $this->tooManyRequest = $tooManyRequest;
     }
 
     /**
@@ -84,7 +84,7 @@ class Exile_Controller
      */
     public function getAction()
     {
-        return $this->_action;
+        return $this->action;
     }
 
     /**
@@ -92,7 +92,7 @@ class Exile_Controller
      */
     private function setAction($action)
     {
-        $this->_action = $action;
+        $this->action = $action;
     }
 
     /**
@@ -100,7 +100,7 @@ class Exile_Controller
      */
     public function getView()
     {
-        return $this->_view;
+        return $this->view;
     }
 
     /**
@@ -108,7 +108,7 @@ class Exile_Controller
      */
     private function setView($view)
     {
-        $this->_view = $view;
+        $this->view = $view;
     }
 
     /**
@@ -116,7 +116,7 @@ class Exile_Controller
      */
     public function getRequest()
     {
-        return $this->_request;
+        return $this->request;
     }
 
     /**
@@ -124,7 +124,7 @@ class Exile_Controller
      */
     public function initRequest()
     {
-        $arrayOfRequests = explode('/', $this->_request);
+        $arrayOfRequests = explode('/', $this->request);
         $this->verifRequest($arrayOfRequests);
         $this->buildView($arrayOfRequests);
         $this->buildAction($arrayOfRequests);
@@ -138,8 +138,8 @@ class Exile_Controller
     private function isWebService($arrayOfRequests)
     {
         if ($arrayOfRequests[1] == 'web' && $arrayOfRequests[2] == 'service') {
-            $this->_params     = $this->extractParams($arrayOfRequests[3]);
-            $this->_webService = true;
+            $this->params      = $this->extractParams($arrayOfRequests[3]);
+            $this->webService = true;
         }
     }
 
@@ -184,7 +184,7 @@ class Exile_Controller
         if (isset($arrayOfRequests[2]) && ! empty($arrayOfRequests[2])) {
             $action = $arrayOfRequests[2];
         } else {
-            $action = $this->_view;
+            $action = $this->view;
         }
         $this->setAction($action);
     }
@@ -206,20 +206,20 @@ class Exile_Controller
      */
     public function buildPage()
     {
-        if ($this->_view == 'home') $this->_action = 'home';
-        if ($this->_view == 'admin') {
-            $this->_admin = true;
-            if (isset($this->_action) && ! empty($this->_action)) {
-                $this->_view = $this->_action;
-                if ( ! (file_exists('../WebApp/actions/admin/' . $this->_action . '.php'))) $this->no_action = true;
-                if ( ! (file_exists('../WebApp/views/admin/' . $this->_view . '.php'))) $this->no_view = true;
+        if ($this->view == 'home') $this->action = 'home';
+        if ($this->view == 'admin') {
+            $this->admin = true;
+            if (isset($this->action) && ! empty($this->action)) {
+                $this->view = $this->action;
+                if ( ! (file_exists('../WebApp/actions/admin/' . $this->action . '.php'))) $this->noAction = true;
+                if ( ! (file_exists('../WebApp/views/admin/' . $this->view . '.php'))) $this->noView = true;
             }
         } else {
-            if (isset($this->_action) && ! empty($this->_action)) {
-                if ( ! (file_exists('../WebApp/actions/' . $this->_action . '.php'))) $this->no_action = true;
+            if (isset($this->action) && ! empty($this->action)) {
+                if ( ! (file_exists('../WebApp/actions/' . $this->action . '.php'))) $this->noAction = true;
             }
-            if (isset($this->_view) && $this->_view != '/') {
-                if ( ! (file_exists('../WebApp/views/' . $this->_view . '.php'))) $this->no_view = true;
+            if (isset($this->view) && $this->view != '/') {
+                if ( ! (file_exists('../WebApp/views/' . $this->view . '.php'))) $this->noView = true;
             }
         }
     }
@@ -229,13 +229,13 @@ class Exile_Controller
      */
     public function pagesToInclude()
     {
-        if ($this->_webService) {
+        if ($this->webService) {
             $pages = array(
-                'WebApp/actions/' . $this->_action . '.php',
-                'WebApp/views/' . $this->_view . '.php'
+                'WebApp/actions/' . $this->action . '.php',
+                'WebApp/views/' . $this->view . '.php'
             );
         } else {
-            if (($this->no_view == true || $this->no_action == true || $this->getTooManyRequest())) :
+            if (($this->noView == true || $this->noAction == true || $this->getTooManyRequest())) :
                 $pages = array(
                     'WebApp/globals/head.php',
                     'WebApp/globals/header404.php',
@@ -243,25 +243,25 @@ class Exile_Controller
                     'WebApp/globals/footer.php'
                 );
             else:
-                if ($this->_admin) {
+                if ($this->admin) {
                     $pages = array(
-                        'WebApp/actions/admin/' . $this->_action . '.php',
+                        'WebApp/actions/admin/' . $this->action . '.php',
                         'WebApp/globals/head.php',
                         'WebApp/globals/admin/header.php',
-                        'WebApp/views/admin/' . $this->_view . '.php',
+                        'WebApp/views/admin/' . $this->view . '.php',
                         'WebApp/globals/admin/footer.php'
                     );
                 } else {
                     $pages = array(
-                        'WebApp/actions/' . $this->_action . '.php',
+                        'WebApp/actions/' . $this->action . '.php',
                         'WebApp/globals/head.php',
                         'WebApp/globals/header.php',
-                        'WebApp/views/' . $this->_view . '.php',
+                        'WebApp/views/' . $this->view . '.php',
                         'WebApp/globals/footer.php'
                     );
                 }
             endif;
         }
-        $this->_pages = $pages;
+        $this->pages = $pages;
     }
 }
