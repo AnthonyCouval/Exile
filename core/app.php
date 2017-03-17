@@ -11,26 +11,28 @@ namespace Exile;
 class Exile
 {
 
-    public static $version = '1.5.0';
+    public static $version = '2.0.0';
     public static $name = 'Exile PHP Framework';
 
     /**
      * Constructeur
      */
-    public function __construct()
+    public function __construct($dir)
     {
+        $env = require __DIR__.'/env.php';
         spl_autoload_register(array($this, 'autoloader'));
     }
 
     /**
      * Autoloader de classes contenues dans chaque dossier de Exile/, récursif
+     *
      * @param $class
      */
     private function autoloader($class)
     {
         $dir_iterator = new \RecursiveDirectoryIterator(EXILE_ROOT_DIR . 'Exile/');
-        $iterator     = new \RecursiveIteratorIterator($dir_iterator);
-        $class        = str_replace('Exile\\', '', $class);
+        $iterator = new \RecursiveIteratorIterator($dir_iterator);
+        $class = str_replace('Exile\\', '', $class);
         foreach ($iterator as $file) {
             if ( ! ($iterator->isDot()) && ! file_exists($class . '.php') && $class . '.php' == basename($file)) {
                 require_once $file;
@@ -67,7 +69,7 @@ class Exile
      */
     public function loadMessage()
     {
-       return new \Message();
+        return new \Message();
     }
 
 }

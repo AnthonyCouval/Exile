@@ -50,7 +50,7 @@ class Config
      */
     private function setEnvironment()
     {
-        if ($this->extractEnvironment() == 'dev') {
+        if ($this->extractEnvironment() === 'dev') {
             $this->_dev = true;
         }
         $this->setReporting();
