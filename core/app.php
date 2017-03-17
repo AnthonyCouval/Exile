@@ -15,6 +15,7 @@ class Exile
     public static $name    = 'Exile PHP Framework';
     public static $rootapp;
     public static $rootdir;
+    public static $DS;
 
     /**
      * Constructeur
@@ -24,7 +25,7 @@ class Exile
         $env = require __DIR__ . '/env.php';
         self::$rootapp = $env['ROOTPATH'];
         self::$rootdir = $env['ROOTDIR'];
-
+        self::$DS = DIRECTORY_SEPARATOR;
         spl_autoload_register(array($this, 'autoloader'));
     }
 

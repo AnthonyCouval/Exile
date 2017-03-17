@@ -136,7 +136,6 @@ class Controller
      *
      * @param $arrayOfRequests
      *
-     * @return bool
      */
     private function isWebService($arrayOfRequests)
     {

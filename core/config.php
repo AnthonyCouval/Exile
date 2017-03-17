@@ -8,7 +8,7 @@
  */
 namespace Core;
 
-class Config
+class Config extends Exile
 {
 
     private $_dev = false;
@@ -66,7 +66,7 @@ class Config
      */
     private function getConfigFromJson()
     {
-        $jsonConfig = file_get_contents(EXILE_ROOT_DIR . '/Config/config.json');
+        $jsonConfig = file_get_contents(self::$rootapp . '/config/config.json');
         $objConfig = json_decode($jsonConfig);
         $this->_config = $objConfig->bdd->prod;
         if ($this->_dev) {
@@ -86,7 +86,7 @@ class Config
             error_reporting(E_ALL);
             ini_set('display_errors', 'Off');
             ini_set('log_errors', 'On');
-            ini_set('error_log', EXILE_ROOT_DIR . DS . 'tmp' . DS . 'logs' . DS . 'errors.log');
+            ini_set('error_log', self::$rootapp . self::$DS . 'tmp' . self::$DS . 'logs' . self::$DS . 'errors.log');
         }
     }
 }

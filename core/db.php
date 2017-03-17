@@ -52,7 +52,7 @@ class Db extends Config
             $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $cnx->exec('SET NAMES utf8');
             $this->_cnx = $cnx;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo $e->getMessage();
         }
     }
