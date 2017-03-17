@@ -11,7 +11,8 @@
     <!-- Web Fonts -->
 
     <!-- STYLES -->
-    <link rel="stylesheet" type="text/css" href="<?= ROOTPATH . '/www/css/bootstrap.min.css'; ?>">
-    <link rel="stylesheet" type="text/css" href="<?= ROOTPATH . '/www/fonts/font-awesome/css/font-awesome.css'; ?>">
+    <link rel="stylesheet" type="text/css" href="<?=Core\Exile::$rootdir . '/www/css/bootstrap.min.css';?>">
+    <link rel="stylesheet" type="text/css"
+          href="<?=Core\Exile::$rootdir . '/www/fonts/font-awesome/css/font-awesome.css';?>">
 
 </head>

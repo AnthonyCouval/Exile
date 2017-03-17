@@ -6,7 +6,7 @@
  * Date: 14/01/2015
  * Time: 01:25
  */
-namespace Exile;
+namespace Core;
 
 class Config
 {
@@ -16,17 +16,20 @@ class Config
 
     /**
      * Charge la config
+     *
      * @return mixed
      */
     public function getConfig()
     {
         $this->setEnvironment();
         $this->getConfigFromJson();
+
         return $this->_config;
     }
 
     /**
      * Va chercher l'url du site
+     *
      * @return array
      */
     private function getEnvironment()
@@ -36,11 +39,13 @@ class Config
 
     /**
      * Extrait l'environnement de l'url
+     *
      * @return mixed
      */
     private function extractEnvironment()
     {
         $env = $this->getEnvironment();
+
         return $env[0];
     }
 
@@ -61,8 +66,8 @@ class Config
      */
     private function getConfigFromJson()
     {
-        $jsonConfig   = file_get_contents(EXILE_ROOT_DIR . '/Config/config.json');
-        $objConfig    = json_decode($jsonConfig);
+        $jsonConfig = file_get_contents(EXILE_ROOT_DIR . '/Config/config.json');
+        $objConfig = json_decode($jsonConfig);
         $this->_config = $objConfig->bdd->prod;
         if ($this->_dev) {
             $this->_config = $objConfig->bdd->dev;
@@ -74,14 +79,14 @@ class Config
      */
     private function setReporting()
     {
-        if($this->_dev){
+        if ($this->_dev) {
             error_reporting(E_ALL);
             ini_set('display_errors', 'On');
-        }else{
+        } else {
             error_reporting(E_ALL);
-            ini_set('display_errors','Off');
+            ini_set('display_errors', 'Off');
             ini_set('log_errors', 'On');
-            ini_set('error_log', EXILE_ROOT_DIR.DS.'tmp'.DS.'logs'.DS.'errors.log');
+            ini_set('error_log', EXILE_ROOT_DIR . DS . 'tmp' . DS . 'logs' . DS . 'errors.log');
         }
     }
 }

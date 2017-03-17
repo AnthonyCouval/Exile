@@ -6,20 +6,25 @@
  * Date: 14/01/2015
  * Time: 00:49
  */
-namespace Exile;
+namespace Core;
 
 class Exile
 {
 
     public static $version = '2.0.0';
-    public static $name = 'Exile PHP Framework';
+    public static $name    = 'Exile PHP Framework';
+    public static $rootapp;
+    public static $rootdir;
 
     /**
      * Constructeur
      */
-    public function __construct($dir)
+    public function __construct()
     {
-        $env = require __DIR__.'/env.php';
+        $env = require __DIR__ . '/env.php';
+        self::$rootapp = $env['ROOTPATH'];
+        self::$rootdir = $env['ROOTDIR'];
+
         spl_autoload_register(array($this, 'autoloader'));
     }
 
@@ -30,14 +35,15 @@ class Exile
      */
     private function autoloader($class)
     {
-        $dir_iterator = new \RecursiveDirectoryIterator(EXILE_ROOT_DIR . 'Exile/');
+        $dir_iterator = new \RecursiveDirectoryIterator(self::$rootapp . '/core');
         $iterator = new \RecursiveIteratorIterator($dir_iterator);
-        $class = str_replace('Exile\\', '', $class);
+        $class = strtolower(str_replace('Core\\', '', $class));
         foreach ($iterator as $file) {
             if ( ! ($iterator->isDot()) && ! file_exists($class . '.php') && $class . '.php' == basename($file)) {
                 require_once $file;
             }
         }
+
     }
 
     /**
@@ -58,6 +64,10 @@ class Exile
 
     /**
      * Charge la classe d'authentification
+     *
+     * @param $cnx
+     *
+     * @return \Auth
      */
     public function loadAuth($cnx)
     {

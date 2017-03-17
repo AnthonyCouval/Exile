@@ -11,21 +11,26 @@ class Helper
 
     /**
      * Méthode qui traite la date et l'heure
+     *
      * @param $date
+     *
      * @return array
      */
     static function traitementDateHeure($date)
     {
         $dateArray = explode(' ', $date);
-        $date      = $dateArray[0];
-        $heure     = $dateArray[1];
-        $heure     = str_replace(':', 'h', $heure);
+        $date = $dateArray[0];
+        $heure = $dateArray[1];
+        $heure = str_replace(':', 'h', $heure);
+
         return array($date, $heure);
     }
 
     /**
      * Méthode qui récupére les catégories checkée
+     *
      * @param $categorieChecked
+     *
      * @return array|string
      */
     static function traitementCategorie($categorieChecked)
@@ -34,12 +39,15 @@ class Helper
             foreach ($categorieChecked as $key => $value) $categorie[] = $value;
         }
         $categorie = implode('-', $categorie);
+
         return $categorie;
     }
 
     /**
      * Méthode qui traite du texte
+     *
      * @param $string
+     *
      * @return mixed|string
      */
     static function traitementTexte($string)
@@ -48,24 +56,30 @@ class Helper
             'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ',
             'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
         $string = preg_replace('/([^.a-z0-9]+)/i', '-', $string);
+
         return $string;
     }
 
     /**
      * Retourne le prix si payant a été choisi
+     *
      * @param $prix
      * @param $combien
+     *
      * @return string
      */
     static function traitementPrix($prix, $combien)
     {
         if ($prix == 'payant') $prix = htmlspecialchars($combien);
+
         return $prix;
     }
 
     /**
      * Pour garder les champs dans les formulaires
+     *
      * @param $input
+     *
      * @return string
      */
     static function form($input)
@@ -75,6 +89,7 @@ class Helper
 
     /**
      * Boucle sur les événements et les affiche
+     *
      * @param $events
      */
     static function loopOnEventsForMarketing($events)
@@ -93,14 +108,14 @@ class Helper
             if ($event->image) {
                 if ($event->import == 'tourinsoft') {
                     $image = 'http://cdt33.media.tourinsoft.eu/upload/' . $event->image;
-                } else if($event->import == 'agendaculturel'){
+                } else if ($event->import == 'agendaculturel') {
                     $image = $event->image;
-                }else{
+                } else {
                     $image = '/www/img/events/' . $event->image;
                 }
             }
 
-            echo '<tr><td>' . $event->ID . '</td><td>'. $event->titre . '</td>
+            echo '<tr><td>' . $event->ID . '</td><td>' . $event->titre . '</td>
                   <td>' . $event->description . '</td><td>' . $event->categorie . '</td>
                   <td>' . $event->date . '</td><td>' . $event->horaires . '</td>
                   <td>' . $event->prix . '</td><td>' . $event->adresse . '</td>
@@ -122,13 +137,13 @@ class Helper
      */
     static function isSGWinner($scoreSG, $scoreAdversaire)
     {
-        if($scoreSG != $scoreAdversaire){
-            if($scoreSG > $scoreAdversaire || $scoreSG == 16){
+        if ($scoreSG != $scoreAdversaire) {
+            if ($scoreSG > $scoreAdversaire || $scoreSG == 16) {
                 echo 'win';
-            }else{
+            } else {
                 return 'lose';
             }
-        }else{
+        } else {
             echo 'draw';
         }
     }
@@ -143,13 +158,13 @@ class Helper
      */
     static function isAdvWinner($scoreSG, $scoreAdversaire)
     {
-        if($scoreSG != $scoreAdversaire){
-            if($scoreSG > $scoreAdversaire || $scoreSG == 16){
+        if ($scoreSG != $scoreAdversaire) {
+            if ($scoreSG > $scoreAdversaire || $scoreSG == 16) {
                 echo 'lose';
-            }else{
+            } else {
                 echo 'win';
             }
-        }else{
+        } else {
             echo 'draw';
         }
 

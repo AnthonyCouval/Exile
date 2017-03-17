@@ -10,18 +10,18 @@
  * qui construit la page en fonction de l'URL demandée
  */
 
-namespace Exile;
+namespace Core;
 
 class Controller
 {
-    private $noAction = false;
-    private $noView = false;
+    private $noAction   = false;
+    private $noView     = false;
     private $action;
     private $view;
     private $request;
     private $tooManyRequest;
     private $pages;
-    private $admin = false;
+    private $admin      = false;
     private $params;
     private $webService = false;
 
@@ -51,6 +51,7 @@ class Controller
 
     /**
      * Constructeur
+     *
      * @param $request
      */
     public function __construct($request)
@@ -132,13 +133,15 @@ class Controller
 
     /**
      * Si le web service est requêté
+     *
      * @param $arrayOfRequests
+     *
      * @return bool
      */
     private function isWebService($arrayOfRequests)
     {
         if ($arrayOfRequests[1] == 'web' && $arrayOfRequests[2] == 'service') {
-            $this->params      = $this->extractParams($arrayOfRequests[3]);
+            $this->params = $this->extractParams($arrayOfRequests[3]);
             $this->webService = true;
         }
     }
@@ -146,11 +149,13 @@ class Controller
     private function extractParams($params)
     {
         parse_str($params, $tabParams);
+
         return $tabParams;
     }
 
     /**
      * verifie si la requête est valide
+     *
      * @param $arrayOfRequests
      */
     private function verifRequest($arrayOfRequests)
@@ -164,6 +169,7 @@ class Controller
 
     /**
      * Methode de construction de la vue
+     *
      * @param $arrayOfRequests
      */
     private function buildView($arrayOfRequests)
@@ -177,6 +183,7 @@ class Controller
 
     /**
      * Methode de construction de l'action
+     *
      * @param $arrayOfRequests
      */
     private function buildAction($arrayOfRequests)
@@ -191,6 +198,7 @@ class Controller
 
     /**
      * Méthode qui détecte les requêtes Ajax
+     *
      * @return bool
      */
     private function isAjax()
@@ -198,6 +206,7 @@ class Controller
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             return true;
         }
+
         return false;
     }
 
@@ -211,15 +220,15 @@ class Controller
             $this->admin = true;
             if (isset($this->action) && ! empty($this->action)) {
                 $this->view = $this->action;
-                if ( ! (file_exists('../WebApp/actions/admin/' . $this->action . '.php'))) $this->noAction = true;
-                if ( ! (file_exists('../WebApp/views/admin/' . $this->view . '.php'))) $this->noView = true;
+                if ( ! (file_exists('..//webapp/actions/admin/' . $this->action . '.php'))) $this->noAction = true;
+                if ( ! (file_exists('..//webapp/views/admin/' . $this->view . '.php'))) $this->noView = true;
             }
         } else {
             if (isset($this->action) && ! empty($this->action)) {
-                if ( ! (file_exists('../WebApp/actions/' . $this->action . '.php'))) $this->noAction = true;
+                if ( ! (file_exists('..//webapp/actions/' . $this->action . '.php'))) $this->noAction = true;
             }
             if (isset($this->view) && $this->view != '/') {
-                if ( ! (file_exists('../WebApp/views/' . $this->view . '.php'))) $this->noView = true;
+                if ( ! (file_exists('..//webapp/views/' . $this->view . '.php'))) $this->noView = true;
             }
         }
     }
@@ -231,33 +240,33 @@ class Controller
     {
         if ($this->webService) {
             $pages = array(
-                'WebApp/actions/' . $this->action . '.php',
-                'WebApp/views/' . $this->view . '.php'
+                '/webapp/actions/' . $this->action . '.php',
+                '/webapp/views/' . $this->view . '.php'
             );
         } else {
             if (($this->noView == true || $this->noAction == true || $this->getTooManyRequest())) :
                 $pages = array(
-                    'WebApp/globals/head.php',
-                    'WebApp/globals/header404.php',
-                    'WebApp/views/404.php',
-                    'WebApp/globals/footer.php'
+                    '/webapp/globals/head.php',
+                    '/webapp/globals/header404.php',
+                    '/webapp/views/404.php',
+                    '/webapp/globals/footer.php'
                 );
             else:
                 if ($this->admin) {
                     $pages = array(
-                        'WebApp/actions/admin/' . $this->action . '.php',
-                        'WebApp/globals/head.php',
-                        'WebApp/globals/admin/header.php',
-                        'WebApp/views/admin/' . $this->view . '.php',
-                        'WebApp/globals/admin/footer.php'
+                        '/webapp/actions/admin/' . $this->action . '.php',
+                        '/webapp/globals/head.php',
+                        '/webapp/globals/admin/header.php',
+                        '/webapp/views/admin/' . $this->view . '.php',
+                        '/webapp/globals/admin/footer.php'
                     );
                 } else {
                     $pages = array(
-                        'WebApp/actions/' . $this->action . '.php',
-                        'WebApp/globals/head.php',
-                        'WebApp/globals/header.php',
-                        'WebApp/views/' . $this->view . '.php',
-                        'WebApp/globals/footer.php'
+                        '/webapp/actions/' . $this->action . '.php',
+                        '/webapp/globals/head.php',
+                        '/webapp/globals/header.php',
+                        '/webapp/views/' . $this->view . '.php',
+                        '/webapp/globals/footer.php'
                     );
                 }
             endif;

@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'ROOT_PATH' => dirname(__DIR__) . '/../',
+    'ROOTPATH' => realpath(dirname(__FILE__) . '/../'),
     'ROOTDIR' => 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']
 ];

@@ -1,8 +1,8 @@
 <?php
-require __DIR__.'/../core/app.php';
+require __DIR__ . '/../core/app.php';
+use Core\Exile as Exile;
 
-
-$exile = new Exile\Exile();
+$exile = new Exile();
 $controller = $exile->loadController();
 $db = $exile->loadDB();
 $cnx = $db->getCnx();
@@ -15,6 +15,6 @@ $msg = $exile->loadMessage();
 
 if ($pages) {
     foreach ($pages as $page) {
-        include EXILE_ROOT_DIR . $page;
+        include Exile::$rootapp . $page;
     }
 }
