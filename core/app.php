@@ -11,8 +11,9 @@ namespace Core;
 class Exile
 {
 
-    public static $version = '2.0.0';
-    public static $name    = 'Exile PHP Framework';
+    public static $version  = '2.0.0';
+    public static $name     = 'Exile PHP Framework';
+    public static $rootpath = null;
     public static $rootapp;
     public static $rootdir;
     public static $DS;
@@ -26,7 +27,10 @@ class Exile
         self::$rootapp = $env['ROOTPATH'];
         self::$rootdir = $env['ROOTDIR'];
         self::$DS = DIRECTORY_SEPARATOR;
+
         spl_autoload_register(array($this, 'autoloader'));
+
+        Config::setConfig();
     }
 
     /**

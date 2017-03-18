@@ -16,6 +16,7 @@
         }
     },
     "env" : {
-        "path" : ""
+        "path" : "Exile",
+        "dev" : true
     }
 }

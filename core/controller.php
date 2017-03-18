@@ -12,7 +12,7 @@
 
 namespace Core;
 
-class Controller
+class Controller extends Exile
 {
     private $noAction   = false;
     private $noView     = false;
@@ -24,30 +24,6 @@ class Controller
     private $admin      = false;
     private $params;
     private $webService = false;
-
-    /**
-     * @return mixed
-     */
-    public function getParams()
-    {
-        return $this->params;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isAdmin()
-    {
-        return $this->admin;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPages()
-    {
-        return $this->pages;
-    }
 
     /**
      * Constructeur
@@ -65,67 +41,15 @@ class Controller
     }
 
     /**
-     * @return mixed
-     */
-    private function getTooManyRequest()
-    {
-        return $this->tooManyRequest;
-    }
-
-    /**
-     * @param mixed $tooManyRequest
-     */
-    private function setTooManyRequest($tooManyRequest)
-    {
-        $this->tooManyRequest = $tooManyRequest;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
-
-    /**
-     * @param mixed $action
-     */
-    private function setAction($action)
-    {
-        $this->action = $action;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getView()
-    {
-        return $this->view;
-    }
-
-    /**
-     * @param mixed $view
-     */
-    private function setView($view)
-    {
-        $this->view = $view;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
      * Methode qui découpe la request
      */
     public function initRequest()
     {
         $arrayOfRequests = explode('/', $this->request);
+        if(self::$rootpath !== null) {
+            unset($arrayOfRequests[0]);
+        }
+        $arrayOfRequests = array_values($arrayOfRequests);
         $this->verifRequest($arrayOfRequests);
         $this->buildView($arrayOfRequests);
         $this->buildAction($arrayOfRequests);
@@ -219,15 +143,15 @@ class Controller
             $this->admin = true;
             if (isset($this->action) && ! empty($this->action)) {
                 $this->view = $this->action;
-                if ( ! (file_exists('..//webapp/actions/admin/' . $this->action . '.php'))) $this->noAction = true;
-                if ( ! (file_exists('..//webapp/views/admin/' . $this->view . '.php'))) $this->noView = true;
+                if ( ! (file_exists('../webapp/actions/admin/' . $this->action . '.php'))) $this->noAction = true;
+                if ( ! (file_exists('../webapp/views/admin/' . $this->view . '.php'))) $this->noView = true;
             }
         } else {
             if (isset($this->action) && ! empty($this->action)) {
-                if ( ! (file_exists('..//webapp/actions/' . $this->action . '.php'))) $this->noAction = true;
+                if ( ! (file_exists('../webapp/actions/' . $this->action . '.php'))) $this->noAction = true;
             }
             if (isset($this->view) && $this->view != '/') {
-                if ( ! (file_exists('..//webapp/views/' . $this->view . '.php'))) $this->noView = true;
+                if ( ! (file_exists('../webapp/views/' . $this->view . '.php'))) $this->noView = true;
             }
         }
     }
@@ -271,5 +195,85 @@ class Controller
             endif;
         }
         $this->pages = $pages;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParams()
+    {
+        return $this->params;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPages()
+    {
+        return $this->pages;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getTooManyRequest()
+    {
+        return $this->tooManyRequest;
+    }
+
+    /**
+     * @param mixed $tooManyRequest
+     */
+    private function setTooManyRequest($tooManyRequest)
+    {
+        $this->tooManyRequest = $tooManyRequest;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * @param mixed $action
+     */
+    private function setAction($action)
+    {
+        $this->action = $action;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getView()
+    {
+        return $this->view;
+    }
+
+    /**
+     * @param mixed $view
+     */
+    private function setView($view)
+    {
+        $this->view = $view;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 }
