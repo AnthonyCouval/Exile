@@ -11,8 +11,8 @@
     <!-- Web Fonts -->
 
     <!-- STYLES -->
-    <link rel="stylesheet" type="text/css" href="<?=Core\Exile::$rootdir . '/www/css/bootstrap.min.css';?>">
+    <link rel="stylesheet" type="text/css" href="<?=Core\Exile::$ROOTDIR . '/www/css/bootstrap.min.css';?>">
     <link rel="stylesheet" type="text/css"
-          href="<?=Core\Exile::$rootdir . '/www/fonts/font-awesome/css/font-awesome.css';?>">
+          href="<?=Core\Exile::$ROOTDIR . '/www/fonts/font-awesome/css/font-awesome.css';?>">
 
 </head>
