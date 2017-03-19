@@ -6,15 +6,17 @@
  * Date: 12/01/2015
  * Time: 20:01
  */
+namespace Lib;
+
 class HelperImg
 {
 
-    static $DestinationDirectory = 'www/img/';
-    static $ImgPresent;
-    static $titreLogo;
-    static $TempSrc;
-    static $ImageType;
-    static $ImageName;
+    public static $destinationDirectory = 'www/img/';
+    public static $imgPresent;
+    public static $titreLogo;
+    public static $srcTemp;
+    public static $imageType;
+    public static $imageName;
 
     /**
      * Vérifie si l'image est présente et a bien été uploadée
@@ -23,7 +25,7 @@ class HelperImg
      *
      * @return bool
      */
-    static function isImgPresent($img)
+    public static function isImgPresent($img)
     {
         if ( ! isset($img['imageFile']) || ! is_uploaded_file($img['imageFile']['tmp_name'])) {
             return false;
@@ -37,7 +39,7 @@ class HelperImg
      *
      * @return int
      */
-    static function randomNumber()
+    public static function randomNumber()
     {
         return rand(0, 9999999999);
     }
@@ -48,12 +50,12 @@ class HelperImg
      * @param $img
      * @param $titre
      */
-    static function getImgInfo($img, $titre)
+    public static function getImgInfo($img, $titre)
     {
-        self::$ImageName = str_replace(' ', '-', strtolower($img['imageFile']['name'])); //on vire les espaces dans le nom de l'image
+        self::$imageName = str_replace(' ', '-', strtolower($img['imageFile']['name']));
         self::$titreLogo = str_replace(' ', '-', strtolower($titre));
-        self::$TempSrc = $img['imageFile']['tmp_name']; // le nom temporaire
-        self::$ImageType = $img['imageFile']['type'];     // le type, retourne "image/png", image/jpeg, text/plain etc.
+        self::$srcTemp = $img['imageFile']['tmp_name'];
+        self::$imageType = $img['imageFile']['type'];
     }
 
     /**
@@ -63,7 +65,7 @@ class HelperImg
      *
      * @return bool
      */
-    static function isExtensionOk($img)
+    public static function isExtensionOk($img)
     {
         //On fait un tableau contenant les extensions autorisées.
         $extensions = array('.png', '.gif', '.jpg', '.jpeg');
@@ -85,13 +87,11 @@ class HelperImg
      *
      * @return bool
      */
-    static function isSizeOk($img)
+    public static function isSizeOk($img, $size = 10000000)
     {
-        //taille maximum (en octets)
-        $taille_maxi = 10000000;
         //taille du fichier
         $taille = filesize($img['imageFile']['tmp_name']);
-        if ($taille > $taille_maxi) {
+        if ($taille > $size) {
             return false;
         }
 

@@ -6,6 +6,8 @@
  * Date: 18/01/2015
  * Time: 10:30
  */
+namespace Lib;
+
 class Auth
 {
     private $cnx;
@@ -13,11 +15,11 @@ class Auth
     /**
      * Constructeur
      *
-     * @param $bdd
+     * @param $db
      */
-    public function __construct($bdd)
+    public function __construct($db)
     {
-        $this->cnx = $bdd;
+        $this->cnx = $db;
     }
 
     /**
@@ -27,7 +29,7 @@ class Auth
      */
     public function isLog()
     {
-        if ( ! isset($_SESSION)) {
+        if ( null === $_SESSION) {
             session_start();
         }
         if (isset($_SESSION['Auth']) && isset($_SESSION['Auth']['pseudo']) && isset($_SESSION['Auth']['password'])) {

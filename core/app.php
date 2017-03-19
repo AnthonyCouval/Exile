@@ -7,6 +7,7 @@
  * Time: 00:49
  */
 namespace Core;
+use Lib;
 
 class Exile
 {
@@ -35,21 +36,21 @@ class Exile
     }
 
     /**
-     * Autoloader de classes contenues dans chaque dossier de Exile/, récursif
+     * Autoloader de classes contenues dans chaque dossier de core/, récursif
      *
      * @param $class
      */
     private function autoloader($class)
     {
+
         $dir_iterator = new \RecursiveDirectoryIterator(self::$ROOTAPP . '/core');
-        $iterator = new \RecursiveIteratorIterator($dir_iterator);
+        $iterator = new \RecursiveIteratorIterator($dir_iterator, \RecursiveIteratorIterator::SELF_FIRST);
         $class = strtolower(str_replace('Core\\', '', $class));
         foreach ($iterator as $file) {
-            if ( ! ($iterator->isDot()) && ! file_exists($class . '.php') && $class . '.php' == basename($file)) {
+            if ( ! ($iterator->isDot()) && $iterator->isFile() === true && ! file_exists($class . '.php')) {
                 require_once $file;
             }
         }
-
     }
 
     /**
@@ -77,7 +78,7 @@ class Exile
      */
     public function loadAuth($cnx)
     {
-        return new \Auth($cnx);
+        return new \Lib\Auth($cnx);
     }
 
     /**
@@ -85,7 +86,7 @@ class Exile
      */
     public function loadMessage()
     {
-        return new \Message();
+        return new \Lib\Message();
     }
 
     public function bootstrap()
