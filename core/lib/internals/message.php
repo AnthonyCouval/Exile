@@ -6,6 +6,8 @@
  * Date: 19/01/2015
  * Time: 21:47
  */
+namespace Lib;
+
 class Message
 {
     /**

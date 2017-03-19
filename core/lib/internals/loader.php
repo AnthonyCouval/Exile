@@ -6,6 +6,8 @@
  * Date: 02/02/2015
  * Time: 21:34
  */
+namespace Lib;
+
 class Loader extends \Core\Exile
 {
 
@@ -18,8 +20,10 @@ class Loader extends \Core\Exile
     public static function loadJS($script = false, $admin = false)
     {
         $path = '/lib/';
-        if ($admin == true) $path = '/admin/lib/';
-        if ($script == false) {
+        if ($admin === true) {
+            $path = '/admin/lib/';
+        }
+        if ($script === false) {
             foreach (glob(self::$ROOTDIR . 'www/js' . $path . 'externals/*.js') as $jsfiles) {
                 echo '<script type="text/javascript" src="' . self::$ROOTDIR . '/www/js' . $path . 'externals/' . basename($jsfiles) . '"></script>' . "\n";
             }
