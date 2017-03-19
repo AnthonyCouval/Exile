@@ -20,14 +20,14 @@ class Loader extends \Core\Exile
         $path = '/lib/';
         if ($admin == true) $path = '/admin/lib/';
         if ($script == false) {
-            foreach (glob(self::$rootdir . 'www/js' . $path . 'externals/*.js') as $jsfiles) {
-                echo '<script type="text/javascript" src="' . self::$rootdir . '/www/js' . $path . 'externals/' . basename($jsfiles) . '"></script>' . "\n";
+            foreach (glob(self::$ROOTDIR . 'www/js' . $path . 'externals/*.js') as $jsfiles) {
+                echo '<script type="text/javascript" src="' . self::$ROOTDIR . '/www/js' . $path . 'externals/' . basename($jsfiles) . '"></script>' . "\n";
             }
-            foreach (glob(self::$rootdir . 'www/js' . $path . 'internals/*.js') as $jsfiles) {
-                echo '<script type="text/javascript" src="' . self::$rootdir . '/www/js' . $path . 'internals/' . basename($jsfiles) . '"></script>' . "\n";
+            foreach (glob(self::$ROOTDIR . 'www/js' . $path . 'internals/*.js') as $jsfiles) {
+                echo '<script type="text/javascript" src="' . self::$ROOTDIR . '/www/js' . $path . 'internals/' . basename($jsfiles) . '"></script>' . "\n";
             }
         } else {
-            echo '<script type="text/javascript" src="' . self::$rootdir . '/www/js/' . $script . '.js"></script>' . "\n";
+            echo '<script type="text/javascript" src="' . self::$ROOTDIR . '/www/js/' . $script . '.js"></script>' . "\n";
         }
     }
 

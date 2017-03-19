@@ -22,7 +22,7 @@ class Config extends Exile
     {
         self::setConfigFromJson();
         if(empty(self::$config->env->path) === false) {
-            self::$rootpath = self::$config->env->path;
+            self::$ROOTPATH = self::$config->env->path;
         }
         self::setEnvironment();
     }
@@ -45,7 +45,7 @@ class Config extends Exile
      */
     private static function setConfigFromJson()
     {
-        $jsonConfig = file_get_contents(self::$rootapp . '/config/config.json');
+        $jsonConfig = file_get_contents(self::$ROOTAPP . '/config/config.json');
         self::$config = json_decode($jsonConfig);
     }
 
@@ -61,7 +61,7 @@ class Config extends Exile
             error_reporting(E_ALL);
             ini_set('display_errors', 'Off');
             ini_set('log_errors', 'On');
-            ini_set('error_log', self::$rootapp . self::$DS . 'tmp' . self::$DS . 'logs' . self::$DS . 'errors.log');
+            ini_set('error_log', self::$ROOTAPP . self::$DS . 'tmp' . self::$DS . 'logs' . self::$DS . 'errors.log');
         }
     }
 }

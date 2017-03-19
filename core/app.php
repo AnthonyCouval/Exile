@@ -11,12 +11,13 @@ namespace Core;
 class Exile
 {
 
-    public static $version  = '2.0.0';
-    public static $name     = 'Exile PHP Framework';
-    public static $rootpath = null;
-    public static $rootapp;
-    public static $rootdir;
+    public static $version = '2.0.0';
+    public static $name    = 'Exile PHP Framework';
+    public static $ROOTPATH;
+    public static $ROOTAPP;
+    public static $ROOTDIR;
     public static $DS;
+    public static $ENVAR;
 
     /**
      * Constructeur
@@ -24,8 +25,8 @@ class Exile
     public function __construct()
     {
         $env = require __DIR__ . '/env.php';
-        self::$rootapp = $env['ROOTPATH'];
-        self::$rootdir = $env['ROOTDIR'];
+        self::$ROOTAPP = $env['ROOTPATH'];
+        self::$ROOTDIR = $env['ROOTDIR'];
         self::$DS = DIRECTORY_SEPARATOR;
 
         spl_autoload_register(array($this, 'autoloader'));
@@ -40,7 +41,7 @@ class Exile
      */
     private function autoloader($class)
     {
-        $dir_iterator = new \RecursiveDirectoryIterator(self::$rootapp . '/core');
+        $dir_iterator = new \RecursiveDirectoryIterator(self::$ROOTAPP . '/core');
         $iterator = new \RecursiveIteratorIterator($dir_iterator);
         $class = strtolower(str_replace('Core\\', '', $class));
         foreach ($iterator as $file) {
@@ -87,4 +88,19 @@ class Exile
         return new \Message();
     }
 
+    public function bootstrap()
+    {
+        //$db = $exile->loadDB();
+        //$cnx = $db->getCnx();
+        $controller = $this->loadController();
+        self::$ENVAR = [
+            'controller' => $controller,
+            'view' => $controller->getView(),
+            'action' => $controller->getAction(),
+            'pages' => $controller->getPages(),
+            'admin' => $controller->isAdmin(),
+            //$isLog = $exile->loadAuth($cnx)->isLog();
+            'msg' => $this->loadMessage()
+        ];
+    }
 }

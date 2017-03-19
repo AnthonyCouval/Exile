@@ -1,3 +1,3 @@
 <?php
 
-echo 'action en php'.PHP_EOL;
+echo 'L\'action php ' . \Core\Exile::$ENVAR['view'].PHP_EOL;

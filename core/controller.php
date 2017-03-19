@@ -46,7 +46,7 @@ class Controller extends Exile
     public function initRequest()
     {
         $arrayOfRequests = explode('/', $this->request);
-        if(self::$rootpath !== null) {
+        if(self::$ROOTPATH !== null) {
             unset($arrayOfRequests[0]);
         }
         $arrayOfRequests = array_values($arrayOfRequests);

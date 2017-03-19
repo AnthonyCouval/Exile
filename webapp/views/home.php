@@ -1,2 +1,2 @@
-<div>ICI UNE VUE !</div>
+<div>ICI LA VUE <?= \Core\Exile::$ENVAR['view']; ?> </div>
 
