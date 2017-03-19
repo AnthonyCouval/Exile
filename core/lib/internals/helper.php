@@ -6,6 +6,9 @@
  * Date: 01/01/2015
  * Time: 12:13
  */
+
+namespace Lib;
+
 class Helper
 {
 
@@ -16,7 +19,7 @@ class Helper
      *
      * @return mixed|string
      */
-    static function textTraitement($string)
+    public static function textTraitement($string)
     {
         $string = strtr($string,
             'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ',
@@ -33,7 +36,7 @@ class Helper
      *
      * @return string
      */
-    static function form($input)
+    public static function form($input)
     {
         return isset($_POST[$input]) ? $_POST[$input] : '';
     }
