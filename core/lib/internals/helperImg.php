@@ -18,7 +18,9 @@ class HelperImg
 
     /**
      * Vérifie si l'image est présente et a bien été uploadée
+     *
      * @param $img
+     *
      * @return bool
      */
     static function isImgPresent($img)
@@ -26,11 +28,13 @@ class HelperImg
         if ( ! isset($img['imageFile']) || ! is_uploaded_file($img['imageFile']['tmp_name'])) {
             return false;
         }
+
         return true;
     }
 
     /**
      * génère un numéro aléatoire
+     *
      * @return int
      */
     static function randomNumber()
@@ -40,20 +44,23 @@ class HelperImg
 
     /**
      * On set toutes les données de l'image
+     *
      * @param $img
      * @param $titre
      */
     static function getImgInfo($img, $titre)
     {
-        self::$ImageName  = str_replace(' ', '-', strtolower($img['imageFile']['name'])); //on vire les espaces dans le nom de l'image
+        self::$ImageName = str_replace(' ', '-', strtolower($img['imageFile']['name'])); //on vire les espaces dans le nom de l'image
         self::$titreLogo = str_replace(' ', '-', strtolower($titre));
-        self::$TempSrc    = $img['imageFile']['tmp_name']; // le nom temporaire
-        self::$ImageType  = $img['imageFile']['type'];     // le type, retourne "image/png", image/jpeg, text/plain etc.
+        self::$TempSrc = $img['imageFile']['tmp_name']; // le nom temporaire
+        self::$ImageType = $img['imageFile']['type'];     // le type, retourne "image/png", image/jpeg, text/plain etc.
     }
 
     /**
      * teste si l'extension est ok
+     *
      * @param $img
+     *
      * @return bool
      */
     static function isExtensionOk($img)
@@ -67,12 +74,15 @@ class HelperImg
         {
             return false;
         }
+
         return true;
     }
 
     /**
      * Vérifie la taille de l'image
+     *
      * @param $img
+     *
      * @return bool
      */
     static function isSizeOk($img)
@@ -84,6 +94,7 @@ class HelperImg
         if ($taille > $taille_maxi) {
             return false;
         }
+
         return true;
     }
 

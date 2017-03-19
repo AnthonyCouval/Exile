@@ -6,17 +6,18 @@
  * Date: 14/01/2015
  * Time: 01:09
  */
-namespace Exile;
+namespace Core;
+
 use PDO;
 
 class Db extends Config
 {
 
-    private $_serveur;
-    private $_user;
-    private $_pass;
-    private $_bdd;
-    private $_port;
+    private   $_serveur;
+    private   $_user;
+    private   $_pass;
+    private   $_bdd;
+    private   $_port;
     protected $_cnx;
 
     /**
@@ -51,13 +52,14 @@ class Db extends Config
             $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $cnx->exec('SET NAMES utf8');
             $this->_cnx = $cnx;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             echo $e->getMessage();
         }
     }
 
     /**
      * récupére tous les événements depuis la base de données
+     *
      * @return mixed
      */
     public function getAllEventsFromDB()
@@ -67,6 +69,7 @@ class Db extends Config
         $req_r->execute();
         $events = $req_r->fetchAll(PDO::FETCH_OBJ);
         $req_r->closeCursor();
+
         return $events;
     }
 }

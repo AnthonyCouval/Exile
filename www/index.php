@@ -1,20 +1,13 @@
 <?php
-require __DIR__.'/../core/app.php';
+require __DIR__ . '/../core/app.php';
+use Core\Exile as Exile;
 
-
-$exile = new Exile\Exile();
-$controller = $exile->loadController();
-$db = $exile->loadDB();
-$cnx = $db->getCnx();
-$view = $controller->getView();
-$action = $controller->getAction();
-$pages = $controller->getPages();
-$admin = $controller->isAdmin();
-$isLog = $exile->loadAuth($cnx)->isLog();
-$msg = $exile->loadMessage();
+$exile = new Exile();
+$exile->bootstrap();
+$pages = Exile::$ENVAR['pages'];
 
 if ($pages) {
     foreach ($pages as $page) {
-        include EXILE_ROOT_DIR . $page;
+        include Exile::$ROOTAPP . $page;
     }
 }

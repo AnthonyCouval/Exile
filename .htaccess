@@ -1,7 +1,7 @@
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([^?]*)$ /www/index.php?var=$1 [NC,L,QSA]
+RewriteRule ^([^?]*)$ www/index.php?var=$1 [NC,L,QSA]
 DirectoryIndex index.php www/index.php
-SetEnv PHP_VER 5_4
+SetEnv PHP_VER 7_0
 Options -Indexes

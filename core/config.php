@@ -6,82 +6,62 @@
  * Date: 14/01/2015
  * Time: 01:25
  */
-namespace Exile;
+namespace Core;
 
-class Config
+class Config extends Exile
 {
 
-    private $_dev = false;
-    private $_config;
+    private static $dev = true;
+    private static $config;
 
     /**
      * Charge la config
-     * @return mixed
+     *
      */
-    public function getConfig()
+    public static function setConfig()
     {
-        $this->setEnvironment();
-        $this->getConfigFromJson();
-        return $this->_config;
+        self::setConfigFromJson();
+        if(empty(self::$config->env->path) === false) {
+            self::$ROOTPATH = self::$config->env->path;
+        }
+        self::setEnvironment();
     }
 
-    /**
-     * Va chercher l'url du site
-     * @return array
-     */
-    private function getEnvironment()
-    {
-        return explode('.', $_SERVER['SERVER_NAME']);
-    }
-
-    /**
-     * Extrait l'environnement de l'url
-     * @return mixed
-     */
-    private function extractEnvironment()
-    {
-        $env = $this->getEnvironment();
-        return $env[0];
-    }
 
     /**
      * Set l'environnement à l'objet
      * et active le reporting d'erreur en fonction
      */
-    private function setEnvironment()
+    private static function setEnvironment()
     {
-        if ($this->extractEnvironment() === 'dev') {
-            $this->_dev = true;
+        if (self::$config->env->dev === true) {
+            self::$dev = true;
         }
-        $this->setReporting();
+        self::setReporting();
     }
 
     /**
      * Va chercher la Config depuis le json
      */
-    private function getConfigFromJson()
+    private static function setConfigFromJson()
     {
-        $jsonConfig   = file_get_contents(EXILE_ROOT_DIR . '/Config/config.json');
-        $objConfig    = json_decode($jsonConfig);
-        $this->_config = $objConfig->bdd->prod;
-        if ($this->_dev) {
-            $this->_config = $objConfig->bdd->dev;
-        }
+        $jsonConfig = file_get_contents(self::$ROOTAPP . '/config/config.json');
+        self::$config = json_decode($jsonConfig);
     }
 
     /**
      * Set le reporting d'erreur en fonction de l'environnement
      */
-    private function setReporting()
+    private static function setReporting()
     {
-        if($this->_dev){
+        if (self::$dev) {
             error_reporting(E_ALL);
             ini_set('display_errors', 'On');
-        }else{
+        } else {
             error_reporting(E_ALL);
-            ini_set('display_errors','Off');
+            ini_set('display_errors', 'Off');
             ini_set('log_errors', 'On');
-            ini_set('error_log', EXILE_ROOT_DIR.DS.'tmp'.DS.'logs'.DS.'errors.log');
+            ini_set('error_log', self::$ROOTAPP . self::$DS . 'tmp' . self::$DS . 'logs' . self::$DS . 'errors.log');
         }
     }
 }

@@ -6,21 +6,32 @@
  * Date: 14/01/2015
  * Time: 00:49
  */
-namespace Exile;
+namespace Core;
 
 class Exile
 {
 
     public static $version = '2.0.0';
-    public static $name = 'Exile PHP Framework';
+    public static $name    = 'Exile PHP Framework';
+    public static $ROOTPATH;
+    public static $ROOTAPP;
+    public static $ROOTDIR;
+    public static $DS;
+    public static $ENVAR;
 
     /**
      * Constructeur
      */
-    public function __construct($dir)
+    public function __construct()
     {
-        $env = require __DIR__.'/env.php';
+        $env = require __DIR__ . '/env.php';
+        self::$ROOTAPP = $env['ROOTPATH'];
+        self::$ROOTDIR = $env['ROOTDIR'];
+        self::$DS = DIRECTORY_SEPARATOR;
+
         spl_autoload_register(array($this, 'autoloader'));
+
+        Config::setConfig();
     }
 
     /**
@@ -30,14 +41,15 @@ class Exile
      */
     private function autoloader($class)
     {
-        $dir_iterator = new \RecursiveDirectoryIterator(EXILE_ROOT_DIR . 'Exile/');
+        $dir_iterator = new \RecursiveDirectoryIterator(self::$ROOTAPP . '/core');
         $iterator = new \RecursiveIteratorIterator($dir_iterator);
-        $class = str_replace('Exile\\', '', $class);
+        $class = strtolower(str_replace('Core\\', '', $class));
         foreach ($iterator as $file) {
             if ( ! ($iterator->isDot()) && ! file_exists($class . '.php') && $class . '.php' == basename($file)) {
                 require_once $file;
             }
         }
+
     }
 
     /**
@@ -58,6 +70,10 @@ class Exile
 
     /**
      * Charge la classe d'authentification
+     *
+     * @param $cnx
+     *
+     * @return \Auth
      */
     public function loadAuth($cnx)
     {
@@ -72,4 +88,19 @@ class Exile
         return new \Message();
     }
 
+    public function bootstrap()
+    {
+        //$db = $exile->loadDB();
+        //$cnx = $db->getCnx();
+        $controller = $this->loadController();
+        self::$ENVAR = [
+            'controller' => $controller,
+            'view' => $controller->getView(),
+            'action' => $controller->getAction(),
+            'pages' => $controller->getPages(),
+            'admin' => $controller->isAdmin(),
+            //$isLog = $exile->loadAuth($cnx)->isLog();
+            'msg' => $this->loadMessage()
+        ];
+    }
 }

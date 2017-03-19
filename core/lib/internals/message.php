@@ -10,14 +10,15 @@ class Message
 {
     /**
      * Initialisation et affichage de l'alerte
-     * @param $message
+     *
+     * @param        $message
      * @param string $type
      */
     public function setFlash($message, $type = 'error')
     {
         $_SESSION['flash'] = array(
             'message' => $message,
-            'type'    => $type
+            'type' => $type
         );
         $this->flash();
     }
