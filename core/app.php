@@ -47,7 +47,7 @@ class Exile
         $iterator = new \RecursiveIteratorIterator($dir_iterator, \RecursiveIteratorIterator::SELF_FIRST);
         $class = strtolower(str_replace('Core\\', '', $class));
         foreach ($iterator as $file) {
-            if ( ! ($iterator->isDot()) && $iterator->isFile() === true && ! file_exists($class . '.php')) {
+            if ( ! $iterator->isDot() && $iterator->isFile() === true && ! file_exists($class . '.php')) {
                 require_once $file;
             }
         }
@@ -74,7 +74,7 @@ class Exile
      *
      * @param $cnx
      *
-     * @return \Auth
+     * @return \Lib\Auth
      */
     public function loadAuth($cnx)
     {
