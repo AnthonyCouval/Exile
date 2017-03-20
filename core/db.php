@@ -56,20 +56,4 @@ class Db extends Config
             echo $e->getMessage();
         }
     }
-
-    /**
-     * récupére tous les événements depuis la base de données
-     *
-     * @return mixed
-     */
-    public function getAllEventsFromDB()
-    {
-        $sql_r = 'SELECT * FROM events WHERE corbeille = 0';
-        $req_r = $this->_cnx->prepare($sql_r);
-        $req_r->execute();
-        $events = $req_r->fetchAll(PDO::FETCH_OBJ);
-        $req_r->closeCursor();
-
-        return $events;
-    }
 }

@@ -14,8 +14,6 @@ namespace Core;
 
 class Controller extends Exile
 {
-    private $noAction   = false;
-    private $noView     = false;
     private $action;
     private $view;
     private $request;
@@ -46,11 +44,11 @@ class Controller extends Exile
     public function initRequest()
     {
         $arrayOfRequests = explode('/', $this->request);
-        if(self::$ROOTPATH !== null) {
+        if (self::$ROOTPATH !== null) {
             unset($arrayOfRequests[0]);
         }
         $arrayOfRequests = array_values($arrayOfRequests);
-        $this->verifRequest($arrayOfRequests);
+        $this->checkRequest($arrayOfRequests);
         $this->buildView($arrayOfRequests);
         $this->buildAction($arrayOfRequests);
     }
@@ -59,16 +57,20 @@ class Controller extends Exile
      * Si le web service est requêté
      *
      * @param $arrayOfRequests
-     *
      */
     private function isWebService($arrayOfRequests)
     {
-        if ($arrayOfRequests[1] == 'web' && $arrayOfRequests[2] == 'service') {
+        if ($arrayOfRequests[1] === 'web' && $arrayOfRequests[2] === 'service') {
             $this->params = $this->extractParams($arrayOfRequests[3]);
             $this->webService = true;
         }
     }
 
+    /**
+     * @param $params
+     *
+     * @return mixed
+     */
     private function extractParams($params)
     {
         parse_str($params, $tabParams);
@@ -81,10 +83,10 @@ class Controller extends Exile
      *
      * @param $arrayOfRequests
      */
-    private function verifRequest($arrayOfRequests)
+    private function checkRequest($arrayOfRequests)
     {
-        if (($arrayOfRequests[1] == 'home' && count($arrayOfRequests) != 2)
-            || (count($arrayOfRequests) > 3 && $this->isWebService($arrayOfRequests) == false)
+        if (($arrayOfRequests[1] === 'home' && count($arrayOfRequests) !== 2)
+            || (count($arrayOfRequests) > 3 && $this->isWebService($arrayOfRequests) === false)
         ) {
             $this->setTooManyRequest(true);
         }
@@ -98,7 +100,7 @@ class Controller extends Exile
     private function buildView($arrayOfRequests)
     {
         $view = $arrayOfRequests[1];
-        if (($view == '/' || empty($view) || ! isset($view)) && (empty($action) || ! isset($action))) {
+        if ($view === '/' || empty($view) || null === $view) {
             $view = 'home';
         }
         $this->setView($view);
@@ -126,11 +128,7 @@ class Controller extends Exile
      */
     private function isAjax()
     {
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            return true;
-        }
-
-        return false;
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     }
 
     /**
@@ -138,20 +136,14 @@ class Controller extends Exile
      */
     public function buildPage()
     {
-        if ($this->view == 'home') $this->action = 'home';
-        if ($this->view == 'admin') {
-            $this->admin = true;
-            if (isset($this->action) && ! empty($this->action)) {
-                $this->view = $this->action;
-                if ( ! (file_exists('../webapp/actions/admin/' . $this->action . '.php'))) $this->noAction = true;
-                if ( ! (file_exists('../webapp/views/admin/' . $this->view . '.php'))) $this->noView = true;
-            }
+        if ($this->view === 'admin') {
+            $this->setAdminPage();
         } else {
-            if (isset($this->action) && ! empty($this->action)) {
-                if ( ! (file_exists('../webapp/actions/' . $this->action . '.php'))) $this->noAction = true;
+            if ( ! file_exists('../webapp/actions/' . $this->action . '.php')) {
+                $this->action = null;
             }
-            if (isset($this->view) && $this->view != '/') {
-                if ( ! (file_exists('../webapp/views/' . $this->view . '.php'))) $this->noView = true;
+            if ( ! file_exists('../webapp/views/' . $this->view . '.php')) {
+                $this->view = null;
             }
         }
     }
@@ -167,7 +159,7 @@ class Controller extends Exile
                 '/webapp/views/' . $this->view . '.php'
             );
         } else {
-            if (($this->noView == true || $this->noAction == true || $this->getTooManyRequest())) :
+            if ($this->view === null || $this->action === null || $this->getTooManyRequest()) :
                 $pages = array(
                     '/webapp/globals/head.php',
                     '/webapp/globals/header404.php',
@@ -175,6 +167,14 @@ class Controller extends Exile
                     '/webapp/globals/footer.php'
                 );
             else:
+                $pages = array(
+                    '/webapp/actions/' . $this->action . '.php',
+                    '/webapp/globals/head.php',
+                    '/webapp/globals/header.php',
+                    '/webapp/views/' . $this->view . '.php',
+                    '/webapp/globals/footer.php'
+                );
+
                 if ($this->admin) {
                     $pages = array(
                         '/webapp/actions/admin/' . $this->action . '.php',
@@ -183,18 +183,27 @@ class Controller extends Exile
                         '/webapp/views/admin/' . $this->view . '.php',
                         '/webapp/globals/admin/footer.php'
                     );
-                } else {
-                    $pages = array(
-                        '/webapp/actions/' . $this->action . '.php',
-                        '/webapp/globals/head.php',
-                        '/webapp/globals/header.php',
-                        '/webapp/views/' . $this->view . '.php',
-                        '/webapp/globals/footer.php'
-                    );
                 }
             endif;
         }
         $this->pages = $pages;
+    }
+
+    /**
+     *
+     */
+    private function setAdminPage()
+    {
+        $this->admin = true;
+        if (null !== $this->action && ! empty($this->action)) {
+            $this->view = $this->action;
+            if ( ! file_exists('../webapp/actions/admin/' . $this->action . '.php')) {
+                $this->action = null;
+            }
+            if ( ! file_exists('../webapp/views/admin/' . $this->view . '.php')) {
+                $this->view = null;
+            }
+        }
     }
 
     /**
