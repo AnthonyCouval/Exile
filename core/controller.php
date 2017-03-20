@@ -167,6 +167,14 @@ class Controller extends Exile
                     '/webapp/globals/footer.php'
                 );
             else:
+                $pages = array(
+                    '/webapp/actions/' . $this->action . '.php',
+                    '/webapp/globals/head.php',
+                    '/webapp/globals/header.php',
+                    '/webapp/views/' . $this->view . '.php',
+                    '/webapp/globals/footer.php'
+                );
+
                 if ($this->admin) {
                     $pages = array(
                         '/webapp/actions/admin/' . $this->action . '.php',
@@ -174,14 +182,6 @@ class Controller extends Exile
                         '/webapp/globals/admin/header.php',
                         '/webapp/views/admin/' . $this->view . '.php',
                         '/webapp/globals/admin/footer.php'
-                    );
-                } else {
-                    $pages = array(
-                        '/webapp/actions/' . $this->action . '.php',
-                        '/webapp/globals/head.php',
-                        '/webapp/globals/header.php',
-                        '/webapp/views/' . $this->view . '.php',
-                        '/webapp/globals/footer.php'
                     );
                 }
             endif;
