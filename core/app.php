@@ -58,7 +58,7 @@ class Exile
      */
     public function loadDB()
     {
-        return new Db();
+        return new Lib\DbSQL();
     }
 
     /**
@@ -78,7 +78,7 @@ class Exile
      */
     public function loadAuth($cnx)
     {
-        return new \Lib\Auth($cnx);
+        return new Lib\Auth($cnx);
     }
 
     /**
@@ -86,7 +86,7 @@ class Exile
      */
     public function loadMessage()
     {
-        return new \Lib\Message();
+        return new Lib\Message();
     }
 
     public function bootstrap()
@@ -94,6 +94,7 @@ class Exile
         //$db = $exile->loadDB();
         //$cnx = $db->getCnx();
         $controller = $this->loadController();
+        $this->loadDB();
         self::$ENVAR = [
             'controller' => $controller,
             'view' => $controller->getView(),
