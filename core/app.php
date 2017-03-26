@@ -12,7 +12,7 @@ use Lib;
 class Exile
 {
 
-    public static $version = '2.0.0';
+    public static $version = '2.0.4';
     public static $name    = 'Exile PHP Framework';
     public static $ROOTPATH;
     public static $ROOTAPP;
@@ -58,7 +58,7 @@ class Exile
      */
     public function loadDB()
     {
-        return new Db();
+        return new Lib\DbSQL();
     }
 
     /**
@@ -78,7 +78,7 @@ class Exile
      */
     public function loadAuth($cnx)
     {
-        return new \Lib\Auth($cnx);
+        return new Lib\Auth($cnx);
     }
 
     /**
@@ -86,21 +86,21 @@ class Exile
      */
     public function loadMessage()
     {
-        return new \Lib\Message();
+        return new Lib\Message();
     }
 
     public function bootstrap()
     {
-        //$db = $exile->loadDB();
-        //$cnx = $db->getCnx();
         $controller = $this->loadController();
+        $db = $this->loadDB();
+        $cnx = $db->getCnx();
         self::$ENVAR = [
             'controller' => $controller,
             'view' => $controller->getView(),
             'action' => $controller->getAction(),
             'pages' => $controller->getPages(),
             'admin' => $controller->isAdmin(),
-            //$isLog = $exile->loadAuth($cnx)->isLog();
+            'isLog' => $controller->loadAuth($cnx)->isLog(),
             'msg' => $this->loadMessage()
         ];
     }

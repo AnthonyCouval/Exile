@@ -12,7 +12,7 @@ class Config extends Exile
 {
 
     private static $dev = true;
-    private static $config;
+    public static $config;
 
     /**
      * Charge la config
