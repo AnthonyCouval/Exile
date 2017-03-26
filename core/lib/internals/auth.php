@@ -14,12 +14,13 @@ class Auth
 
     /**
      * Constructeur
+
      *
-     * @param $db
+     * @param $cnx \PDO
      */
-    public function __construct($db)
+    public function __construct(\PDO $cnx)
     {
-        $this->cnx = $db;
+        $this->cnx = $cnx;
     }
 
     /**
@@ -29,7 +30,7 @@ class Auth
      */
     public function isLog()
     {
-        if ( null === $_SESSION) {
+        if ( session_status() === PHP_SESSION_NONE ) {
             session_start();
         }
         if (isset($_SESSION['Auth']) && isset($_SESSION['Auth']['pseudo']) && isset($_SESSION['Auth']['password'])) {
@@ -37,8 +38,8 @@ class Auth
             $sql = 'SELECT pseudo, password FROM admins WHERE pseudo = :pseudo AND password = :password';
             $req = $this->cnx->prepare($sql);
             $req->execute($q);
-            $count = $req->rowCount($sql);
-            if ($count == 1) {
+            $count = $req->rowCount();
+            if ($count === 1) {
                 return true;
             }
         }

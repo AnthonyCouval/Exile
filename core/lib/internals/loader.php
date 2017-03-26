@@ -25,13 +25,13 @@ class Loader extends \Core\Exile
         }
         if ($script === false) {
             foreach (glob(self::$ROOTDIR . 'www/js' . $path . 'externals/*.js') as $jsfiles) {
-                echo '<script type="text/javascript" src="' . self::$ROOTDIR . '/www/js' . $path . 'externals/' . basename($jsfiles) . '"></script>' . "\n";
+                echo '<script type="text/javascript" src="' . self::$ROOTDIR . '/www/js' . $path . 'externals/' . basename($jsfiles) . '"></script>' . PHP_EOL;
             }
             foreach (glob(self::$ROOTDIR . 'www/js' . $path . 'internals/*.js') as $jsfiles) {
-                echo '<script type="text/javascript" src="' . self::$ROOTDIR . '/www/js' . $path . 'internals/' . basename($jsfiles) . '"></script>' . "\n";
+                echo '<script type="text/javascript" src="' . self::$ROOTDIR . '/www/js' . $path . 'internals/' . basename($jsfiles) . '"></script>' . PHP_EOL;
             }
         } else {
-            echo '<script type="text/javascript" src="' . self::$ROOTDIR . '/www/js/' . $script . '.js"></script>' . "\n";
+            echo '<script type="text/javascript" src="' . self::$ROOTDIR . '/www/js/' . $script . '.js"></script>' . PHP_EOL;
         }
     }
 

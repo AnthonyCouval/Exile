@@ -3,7 +3,7 @@
         "dev" : {
             "serveur" : "localhost",
             "user"    : "root",
-            "pass"    : "root",
+            "pass"    : "",
             "bdd"     : "",
             "port"    : ""
         },

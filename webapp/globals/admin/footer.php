@@ -3,8 +3,10 @@
 
 <!-- JAVASCRIPT -->
 <?php
-Loader::loadJS();
-if($action == 'admin') Loader::loadJS(false, true);
+\Lib\Loader::loadJS();
+if(\Core\Exile::$ENVAR['action'] === 'admin') {
+    \Lib\Loader::loadJS(false, true);
+}
 ?>
 
 </body>
