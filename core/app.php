@@ -12,7 +12,7 @@ use Lib;
 class Exile
 {
 
-    public static $version = '2.0.0';
+    public static $version = '2.0.4';
     public static $name    = 'Exile PHP Framework';
     public static $ROOTPATH;
     public static $ROOTAPP;
