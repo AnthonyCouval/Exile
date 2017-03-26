@@ -91,17 +91,16 @@ class Exile
 
     public function bootstrap()
     {
-        //$db = $exile->loadDB();
-        //$cnx = $db->getCnx();
         $controller = $this->loadController();
-        $this->loadDB();
+        $db = $this->loadDB();
+        $cnx = $db->getCnx();
         self::$ENVAR = [
             'controller' => $controller,
             'view' => $controller->getView(),
             'action' => $controller->getAction(),
             'pages' => $controller->getPages(),
             'admin' => $controller->isAdmin(),
-            //$isLog = $exile->loadAuth($cnx)->isLog();
+            'isLog' => $controller->loadAuth($cnx)->isLog(),
             'msg' => $this->loadMessage()
         ];
     }

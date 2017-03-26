@@ -29,7 +29,7 @@ class Auth
      */
     public function isLog()
     {
-        if ( null === $_SESSION) {
+        if ( session_status() === PHP_SESSION_NONE ) {
             session_start();
         }
         if (isset($_SESSION['Auth']) && isset($_SESSION['Auth']['pseudo']) && isset($_SESSION['Auth']['password'])) {
