@@ -47,7 +47,7 @@ class DbSQL
         try {
             $cnx = new PDO('mysql:host=' . $this->serveur . ';port=' . $this->port . ';dbname=' . $this->db, $this->user, $this->pass);
             $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->cnx = $cnx->exec('SET NAMES utf8');
+            $this->cnx = $cnx;
         } catch (\PDOException $e) {
             echo $e->getMessage();
         }
